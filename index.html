@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proximas 7 Bodas · 02/07/2026</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0a0a0a;
+    color: #eaeaea;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    padding: 32px 16px 80px;
+  }
+  .container { max-width: 700px; margin: 0 auto; }
+  .head {
+    text-align: center;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .head .label {
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: #c9a96e;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .head h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  .head .sub { font-size: 14px; color: #999; }
+
+  .section {
+    background: #1a1a1a;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+  }
+  .section h2 {
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #c9a96e;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .section h2 .count {
+    color: #888;
+    font-size: 11px;
+    margin-left: 8px;
+  }
+  .empty {
+    text-align: center;
+    color: #666;
+    padding: 16px;
+    font-size: 14px;
+    font-style: italic;
+  }
+
+  .boda {
+    background: #222;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .boda:last-child { margin-bottom: 0; }
+  .boda .fecha {
+    text-align: center;
+    background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+    border-radius: 10px;
+    padding: 10px 4px;
+    border: 1px solid #333;
+  }
+  .boda .fecha .dia {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+  }
+  .boda .fecha .mes {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #c9a96e;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+  .boda .fecha .cuando {
+    font-size: 10px;
+    color: #999;
+    margin-top: 4px;
+    font-style: italic;
+  }
+  .boda .info { min-width: 0; }
+  .boda .info .nom {
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 2px;
+  }
+  .boda .info .lugar {
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 8px;
+  }
+  .boda .info .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+  .boda .info .empresa {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .empresa.norkevin { color: #4ade80; background: #16a34a22; }
+  .empresa.astral { color: #a78bfa; background: #8b5cf622; }
+  .empresa.otra { color: #999; background: #2a2a2a; }
+  .boda .info .puesto {
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #c9a96e;
+    background: #2a2418;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .boda .info .puesto.vacio {
+    color: #666;
+    background: #1a1a1a;
+    border: 1px dashed #444;
+  }
+  .boda .info .puestos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  /* Pagos */
+  .pagos-section {
+    background: linear-gradient(145deg, #1a1410 0%, #1a1a1a 100%);
+  }
+  .pagos-section h2 { color: #fbbf24; }
+
+  .persona-group {
+    margin-bottom: 18px;
+  }
+  .persona-group:last-child { margin-bottom: 0; }
+  .persona-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #2a2a2a;
+  }
+  .persona-head .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #c9a96e, #b08d4f);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #0a0a0a;
+    font-size: 14px;
+  }
+  .persona-head .nombre {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .persona-head .total {
+    margin-left: auto;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fbbf24;
+  }
+
+  .pago {
+    background: #1f1a10;
+    border-left: 3px solid #fbbf24;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 8px;
+  }
+  .pago:last-child { margin-bottom: 0; }
+  .pago .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+  .pago .boda-nom {
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+  }
+  .pago .monto {
+    font-size: 18px;
+    font-weight: 700;
+    color: #c9a96e;
+  }
+  .pago .meta {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 6px;
+  }
+  .pago .estado {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #fbbf2422;
+    color: #fbbf24;
+  }
+  .pago .estado.pagado {
+    background: #4ade8022;
+    color: #4ade80;
+  }
+
+  .total-general {
+    background: #141414;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .total-general .lbl {
+    font-size: 13px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .total-general .amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fbbf24;
+  }
+
+  .footer {
+    text-align: center;
+    color: #555;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 32px;
+  }
+  .footer .gold { color: #c9a96e; }
+
+  @media (max-width: 600px) {
+    body { padding: 16px 12px 60px; }
+    .section { padding: 20px 16px; }
+    .boda { padding: 14px; gap: 12px; grid-template-columns: 60px 1fr; }
+    .boda .fecha { padding: 8px 2px; }
+    .boda .fecha .dia { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="head">
+    <div class="label">Vista de agenda</div>
+    <h1>Proximas 7 Bodas</h1>
+    <div class="sub">Jue 2 Jul en adelante · 7 bodas</div>
+  </div>
+
+  <div class="section">
+    <h2>Bodas<span class="count">7</span></h2>
+    <div class="boda">
+      <div class="fecha">
+        <div class="dia">04</div>
+        <div class="mes">Jul</div>
+        <div class="cuando">En 2 dias</div>
+      </div>
+      <div class="info">
+        <div class="nom">CARLOS ZELAYA</div>
+        <div class="lugar">Montes de Maria, (Events + Residencia) Filadelfia</div>
+        <div class="badges">
+          <span class="empresa norkevin">NORKEVIN</span>
+        </div>
+        <div class="puestos">
+          <span class="puesto">F1: kevin Lemus</span><span class="puesto vacio">F2: -</span><span class="puesto vacio">V1: -</span><span class="puesto vacio">V2: -</span><span class="puesto vacio">Asist: -</span>
+        </div>
+      </div>
+    </div>
+    <div class="boda">
+      <div class="fecha">
+        <div class="dia">18</div>
+        <div class="mes">Jul</div>
+        <div class="cuando">En 2 sem</div>
+      </div>
+      <div class="info">
+        <div class="nom">BODA CIVIL - GERALDINE Y JUAN MANUEL</div>
+        <div class="lugar">Hotel Atitlán, Panajachel</div>
+        <div class="badges">
+          <span class="empresa otra">ASTRAL FILMS</span>
+        </div>
+        <div class="puestos">
+          <span class="puesto">F1: kevin Lemus</span><span class="puesto vacio">F2: -</span><span class="puesto">V1: Alfredo Yuman</span><span class="puesto vacio">V2: -</span><span class="puesto vacio">Asist: -</span>
+        </div>
+      </div>
+    </div>
+    <div class="boda">
+      <div class="fecha">
+        <div class="dia">25</div>
+        <div class="mes">Jul</div>
+        <div class="cuando">En 3 sem</div>
+      </div>
+      <div class="info">
+        <div class="nom">Cindy cerezo</div>
+        <div class="lugar">Porta Hotel Antigua, Antigua Guatemala, Guatemala</div>
+        <div class="badges">
+          <span class="empresa norkevin">NORKEVIN</span>
+        </div>
+        <div class="puestos">
+          <span class="puesto">F1: kevin Lemus</span><span class="puesto">F2: Luis Lemus</span><span class="puesto vacio">V1: -</span><span class="puesto vacio">V2: -</span><span class="puesto vacio">Asist: -</span>
+        </div>
+      </div>
+    </div>
+    <div class="boda">
+      <div class="fecha">
+        <div class="dia">01</div>
+        <div class="mes">Ago</div>
+        <div class="cuando">En 1 mes</div>
+      </div>
+      <div class="info">
+        <div class="nom">Karen Michelle Sandoval Lemus</div>
+        <div class="lugar">Hotel Mestizo Cortijo, Ciudad Vieja, Guatemala</div>
+        <div class="badges">
+          <span class="empresa norkevin">NORKEVIN</span>
+        </div>
+        <div class="puestos">
+          <span class="puesto">F1: kevin Lemus</span><span class="puesto">F2: Ramiro Cruz</span><span class="puesto">V1: Henry Gil</span><span class="puesto vacio">V2: -</span><span class="puesto vacio">Asist: -</span>
+        </div>
+      </div>
+    </div>
+    <div class="boda">
+      <div class="fecha">
+        <div class="dia">15</div>
+        <div class="mes">Ago</div>
+        <div class="cuando">En 1 mes</div>
+      </div>
+      <div class="info">
+        <div class="nom">Daniel Dubuc</div>
+        <div class="lugar">Casa Nicolasa, San Jorge Muxbal, Guatemala</div>
+        <div class="badges">
+          <span class="empresa norkevin">NORKEVIN</span>
+        </div>
+        <div class="puestos">
+          <span class="puesto">F1: kevin Lemus</span><span class="puesto">F2: Ramiro Cruz</span><span class="puesto vacio">V1: -</span><span class="puesto vacio">V2: -</span><span class="puesto vacio">Asist: -</span>
+        </div>
+      </div>
+    </div>
+    <div class="boda">
+      <div class="fecha">
+        <div class="dia">22</div>
+        <div class="mes">Ago</div>
+        <div class="cuando">En 1 mes</div>
+      </div>
+      <div class="info">
+        <div class="nom">Hector y Katia</div>
+        <div class="lugar">pendiente</div>
+        <div class="badges">
+          <span class="empresa norkevin">NORKEVIN</span>
+        </div>
+        <div class="puestos">
+          <span class="puesto">F1: kevin Lemus</span><span class="puesto">F2: Erick Gonzales</span><span class="puesto">V1: Jose Teque</span><span class="puesto vacio">V2: -</span><span class="puesto">Asist: Luis Lemus</span>
+        </div>
+      </div>
+    </div>
+    <div class="boda">
+      <div class="fecha">
+        <div class="dia">10</div>
+        <div class="mes">Oct</div>
+        <div class="cuando">En 3 mes</div>
+      </div>
+      <div class="info">
+        <div class="nom">Rosanella Lopez</div>
+        <div class="lugar">La Vacheria, Ciudad de Guatemala, Guatemala</div>
+        <div class="badges">
+          <span class="empresa norkevin">NORKEVIN</span>
+        </div>
+        <div class="puestos">
+          <span class="puesto">F1: kevin Lemus</span><span class="puesto">F2: Ramiro Cruz</span><span class="puesto vacio">V1: -</span><span class="puesto vacio">V2: -</span><span class="puesto vacio">Asist: -</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section pagos-section">
+    <h2>Pagos pendientes · Ramiro + Josema<span class="count">14</span></h2>
+    <div class="persona-group">
+      <div class="persona-head">
+        <div class="avatar">RC</div>
+        <div class="nombre">Ramiro Cruz</div>
+        <div class="total">Q3,000</div>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Ramiro - Save the date Anna Beatriz · 2026-06-29</div>
+          <div class="monto">Q500</div>
+        </div>
+        <div class="meta">Fotografía</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Pago a Ramiro - Ana Lucía Graduación Solei · 2026-06-06</div>
+          <div class="monto">Q1,000</div>
+        </div>
+        <div class="meta">Fotógrafo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Boda Karen Michelle Sandoval Lemus · 2026-08-01</div>
+          <div class="monto">Q1,500</div>
+        </div>
+        <div class="meta">Segunda Camara</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+    </div>
+    <div class="persona-group">
+      <div class="persona-head">
+        <div class="avatar">JM</div>
+        <div class="nombre">Jose Manuel Teque</div>
+        <div class="total">Q18,250</div>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Pedida de mano Casa del Mundo · 2026-06-06</div>
+          <div class="monto">Q1,500</div>
+        </div>
+        <div class="meta">Videografo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Boda Karen Michelle Sandoval Lemus · 2026-08-01</div>
+          <div class="monto">Q1,800</div>
+        </div>
+        <div class="meta">Videografo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Pediente de pago · 2026-06-01</div>
+          <div class="monto">Q1,150</div>
+        </div>
+        <div class="meta">Videografo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">BODA LUIS MONZON Y ANDREA MONKEMULLER · 2027-01-09</div>
+          <div class="monto">Q1,500</div>
+        </div>
+        <div class="meta">Videógrafo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Andrea Cano · 2026-11-21</div>
+          <div class="monto">Q1,500</div>
+        </div>
+        <div class="meta">Fotógrafo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Alejandra Figueroa · 2026-12-19</div>
+          <div class="monto">Q1,800</div>
+        </div>
+        <div class="meta">Videografo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Maria Mazariegos · 2026-12-12</div>
+          <div class="monto">Q1,800</div>
+        </div>
+        <div class="meta">Videografo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Carmen Mansilla · 2026-11-28</div>
+          <div class="monto">Q1,800</div>
+        </div>
+        <div class="meta">Videografo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Elisa y Juan · 2026-11-14</div>
+          <div class="monto">Q1,800</div>
+        </div>
+        <div class="meta">Videografo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Adriana Cabrera · 2026-11-07</div>
+          <div class="monto">Q1,800</div>
+        </div>
+        <div class="meta">Videografo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+      <div class="pago">
+        <div class="top">
+          <div class="boda-nom">Jasmine Cifuentes · 2026-10-17</div>
+          <div class="monto">Q1,800</div>
+        </div>
+        <div class="meta">Videografo</div>
+        <span class="estado ">Pendiente</span>
+      </div>
+    </div>
+    <div class="total-general">
+      <div class="lbl">Total adeudado</div>
+      <div class="amount">Q21,250</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span class="gold">Norkito</span> · Proximas 7 bodas + auditoria pagos · 2026-07-02 00:56
+  </div>
+</div>
+</body>
+</html>
